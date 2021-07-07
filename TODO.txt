@@ -1,0 +1,6 @@
+1. Homepage including all inputs, buttons, etc.
+2. Algorithm which would calculate amount of time needed to crack(does not have to be accurate)
+3. Porting to Android
+4. Saving passwords 
+5. Making the app not accessible until the master password is inputted
+6. Continue TODO List
