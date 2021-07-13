@@ -1,8 +1,13 @@
 import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW #do not remove
-
-
+instant = 0
+sizeofletter = 0
+import os
+FOLDER = os.path.dirname(os.path.abspath(__file__))
+my_file = os.path.join(FOLDER, 'mostcommonpasswords.txt')
+def split(word):
+    return [char for char in word]
 class TestPassword(toga.App):
 
     def startup(self):
@@ -20,7 +25,7 @@ class TestPassword(toga.App):
 
         button = toga.Button(#creation of button with text "Test Password"
             'Test Password',
-            on_press=self.returnpassword,#on press returns text in input
+            on_press=self.bruteforce,#on press returns text in input
             style=Pack(padding=(20, 5))#location of button
         )
 
@@ -33,7 +38,27 @@ class TestPassword(toga.App):
 
     def returnpassword(self, widget):
         print(self.password_input.value)#prints the password inputted into console -- subject to change
-
+    def iscommon(self,widget):#checks if password is in the top 10^6 most common passwords
+        with open(my_file) as mostcommonfile:
+            contents = mostcommonfile.read()
+            if self.password_input.value in contents:
+                instant = 1#sets instant to 1, meaning that the password would be instantly cracked
+    def bruteforce(self,widget):#checks amount of time needed for average desktop cpu to bruteforce the password
+        #print(lettercheck) debugging
+        if self.password_input.value.isalpha():#checks if has only letters
+            if self.password_input.value.isupper() or self.password_input.value.islower():
+                sizeofletter = 26#if only upper or lower
+            else:
+                sizeofletter = 52#if both
+        else:
+            if self.password_input.value.isnumeric():
+                sizeofletter = 10#if only numbers
+            else:
+                sizeofletter = 100#if letters, numbers, and symbols
+        timeTaken = (sizeofletter ** len(self.password_input.value) / (4*10^9))#calculates timetaken
+        #print(sizeofletter) debugging
+        print(timeTaken)#prints amount of time taken in seconds
+                               
 def main(): #do not remove
     return TestPassword()
 
